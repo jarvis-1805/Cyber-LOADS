@@ -20,24 +20,46 @@ def rectify_command(command):
     
     if commandList[1] == 'exit':
         return 'exit'
+
+    commandDic = {  '-i': None,
+                    '--interface': None,
+                    '-gmac': None,
+                    '--getMAC': None,
+                    '-cmac': None,
+                    '--changeMAC': None,
+                    '-gmode': None,
+                    '--getMODE': None,
+                    '-cmode': None,
+                    '--changeMODE': None
+                }
     
     if '-h' in commandList or '--help' in commandList:
         help()
+        return -1
 
-    if '-i' in commandList or '--interface' in commandList:
-        for i in range(1, len(commandList)):
-            if '-i' == commandList[i] or '--interface' == commandList[i]:
-                interface = commandList[i+1]
+    for i in range(1, len(commandList)):
+        if '-i' == commandList[i] or '--interface' == commandList[i]:
+            commandDic['-i'] = commandList[i+1]
+            commandDic['--interface'] = commandList[i+1]
+
+        if '-cmac' == commandList[i] or '--changeMAC' == commandList[i]:
+            commandDic['-cmac'] = commandList[i+1]
+            commandDic['--changeMAC'] = commandList[i+1]
+
+        if '-cmode' == commandList[i] or '--changeMODE' == commandList[i]:
+            commandDic['-cmode'] = commandList[i+1]
+            commandDic['--changeMODE'] = commandList[i+1]
+    
     
     if '-gmac' in commandList or '--getMAC' in commandList:
-        macAddr = mc.get_MAC(interface)
-        print("Current MAC Address of " + interface + " interface is " + macAddr)
+        macAddr = mc.get_MAC(commandDic['-i'])
+        print("[+] Current MAC Address is " + macAddr)
 
     if '-cmac' in commandList or '--changeMAC' in commandList:
-        mc.change_MAC(interface)
+        newMAC = mc.change_MAC(commandDic['-i'], commandDic['-cmac'])
     
     if '-gmode' in commandList or '--getMODE' in commandList:
-        mc.get_mode(interface)
+        mc.get_mode(commandDic['-i'])
     
     if '-cmode' in commandList or '--changeMODE' in commandList:
-        mc.change_mode(interface)
+        mc.change_mode(commandDic['-i'], commandDic['-cmode'])

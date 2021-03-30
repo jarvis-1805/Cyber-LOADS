@@ -49,17 +49,21 @@ def rectify_command(command):
         if '-cmode' == commandList[i] or '--changeMODE' == commandList[i]:
             commandDic['-cmode'] = commandList[i+1]
             commandDic['--changeMODE'] = commandList[i+1]
-    
-    
+
     if '-gmac' in commandList or '--getMAC' in commandList:
         macAddr = mc.get_MAC(commandDic['-i'])
-        print("[+] Current MAC Address is " + macAddr)
+        if macAddr is not None:
+            print("[+] Current MAC Address is " + macAddr)
 
     if '-cmac' in commandList or '--changeMAC' in commandList:
-        newMAC = mc.change_MAC(commandDic['-i'], commandDic['-cmac'])
+        if '-cmac' is not None  and '--changeMAC' is not None:
+            newMAC = mc.change_MAC(commandDic['-i'], commandDic['-cmac'])
     
     if '-gmode' in commandList or '--getMODE' in commandList:
-        mc.get_mode(commandDic['-i'])
+        mode = mc.get_mode(commandDic['-i'])
+        if mode is not None:
+            print("[+] Current Mode is " + mode)
     
     if '-cmode' in commandList or '--changeMODE' in commandList:
-        mc.change_mode(commandDic['-i'], commandDic['-cmode'])
+        if '-cmode' is not None  and '--changeMODE' is not None:
+            newMODE = mc.change_mode(commandDic['-i'], commandDic['-cmode'])

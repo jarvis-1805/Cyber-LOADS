@@ -52,11 +52,11 @@ class MAC:
         ans = regex.search(cmdResult)
 
         if ans is not None:
-            currentMODE = ans.group().split(" ")[1]
+            currentMODE = ans.group().split(":")[1]
             return currentMODE
-        
+
         return None
-    
+
     def change_mode(self, interface, newMODE):
         print("[+] Current MODE is:", self.get_mode(interface))
 

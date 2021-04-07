@@ -67,11 +67,11 @@ class MAC:
         
         print("[+] Killing Network Manager...")
         # airmon-ng check kill
-        output = subprocess.run(["airmon-ng check kill"], shell = False, capture_output = True)
+        output = subprocess.run(["airmon-ng check kill"], shell = True, capture_output = True)
         if output.stderr.decode('utf-8'):
             print(output.stderr.decode('utf-8'))
         if output:
-            print(output)
+            print(output.stdout.decode('utf-8'))
 
         # iwconfig wlan0 mode monitor
         output = subprocess.run(["iwconfig", interface, "mode", newMODE], shell = False, capture_output = True)
